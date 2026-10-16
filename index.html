@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f7fb" />
+    <meta
+      name="description"
+      content="Check current weather conditions for any city with Skycast."
+    />
+    <title>Skycast — City weather</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="Skycast home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <path d="M20.8 18.5a7.2 7.2 0 1 1-7.3-9.8 8.8 8.8 0 0 0 7.3 9.8Z" fill="currentColor" />
+              <path d="M21.5 5.5v2.2m7.1.7-1.6 1.6m4 5h-2.3m-2 7.2-1.6-1.6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </span>
+          <span>skycast<span class="brand-period">.</span></span>
+        </a>
+        <div class="live-indicator"><span></span> Live weather</div>
+      </header>
+
+      <main>
+        <section class="intro" aria-labelledby="page-title">
+          <p class="eyebrow">YOUR WINDOW TO THE WEATHER</p>
+          <h1 id="page-title">A little more <span>forecast</span>.</h1>
+          <p class="intro-copy">Find the current conditions, wherever you are.</p>
+        </section>
+
+        <section class="weather-card" aria-label="Current weather">
+          <form class="search-form" id="search-form">
+            <label class="visually-hidden" for="city-input">Search for a city</label>
+            <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="10.8" cy="10.8" r="6.8"></circle>
+              <path d="m16 16 4.5 4.5"></path>
+            </svg>
+            <input
+              id="city-input"
+              name="city"
+              type="search"
+              placeholder="Search a city..."
+              value="London"
+              autocomplete="off"
+              required
+            />
+            <button class="search-button" type="submit">
+              <span>Search</span>
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M4 10h12m-5-5 5 5-5 5"></path>
+              </svg>
+            </button>
+          </form>
+
+          <div class="notice" id="notice" role="status" aria-live="polite" hidden></div>
+
+          <div class="weather-content" id="weather-content" aria-live="polite">
+            <div class="weather-placeholder" id="weather-placeholder">
+              <div class="placeholder-icon" aria-hidden="true">
+                <svg viewBox="0 0 80 80" fill="none">
+                  <circle cx="51" cy="28" r="14" fill="#F6C86D" />
+                  <path d="M22 57h36a11 11 0 0 0 0-22c-.8 0-1.6.1-2.4.3A18 18 0 0 0 21 40a8.5 8.5 0 0 0 1 17Z" fill="#DCE7F3" />
+                  <path d="M31 65v5m14-5v5m14-5v5" stroke="#93A9C2" stroke-width="3" stroke-linecap="round" />
+                </svg>
+              </div>
+              <h2>Your forecast starts here</h2>
+              <p>Search a city to see its current weather conditions.</p>
+            </div>
+
+            <div class="weather-result" id="weather-result" hidden>
+              <div class="weather-heading">
+                <div>
+                  <p class="location-label">CURRENT WEATHER</p>
+                  <h2 id="location-name"></h2>
+                  <p class="weather-date" id="weather-date"></p>
+                </div>
+                <div class="weather-visual">
+                  <img id="weather-icon" alt="" />
+                  <span id="weather-description"></span>
+                </div>
+              </div>
+              <div class="temperature-block">
+                <span class="temperature" id="temperature"></span>
+                <span class="temperature-unit">°C</span>
+              </div>
+              <div class="weather-divider"></div>
+              <div class="weather-stats">
+                <div class="stat">
+                  <span class="stat-icon humidity-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M12 3.5s6.5 7.2 6.5 11.2a6.5 6.5 0 0 1-13 0C5.5 10.7 12 3.5 12 3.5Z"></path><path d="M9 15a3 3 0 0 0 3 3"></path></svg>
+                  </span>
+                  <span class="stat-label">Humidity</span>
+                  <strong id="humidity"></strong>
+                </div>
+                <div class="stat">
+                  <span class="stat-icon wind-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M3 8h12a2.5 2.5 0 1 0-2.4-3.2M3 12h16a2 2 0 1 1-1.9 2.6M3 16h9a2.5 2.5 0 1 1-2.4 3.2"></path></svg>
+                  </span>
+                  <span class="stat-label">Wind speed</span>
+                  <strong id="wind-speed"></strong>
+                </div>
+                <div class="stat">
+                  <span class="stat-icon feels-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M14 14.8V5a3 3 0 0 0-6 0v9.8a5 5 0 1 0 6 0Z"></path><path d="M11 12v6"></path></svg>
+                  </span>
+                  <span class="stat-label">Feels like</span>
+                  <strong id="feels-like"></strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <details class="api-settings" id="api-settings">
+            <summary>
+              <span class="settings-summary">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5 3.5 5v4.2c0 4 2.8 6.7 6.5 8.3 3.7-1.6 6.5-4.3 6.5-8.3V5L10 2.5Z"></path><path d="m7.5 9.7 1.7 1.7 3.5-3.6"></path></svg>
+                <span id="key-summary">Connect your OpenWeatherMap API key</span>
+              </span>
+              <svg class="chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5"></path></svg>
+            </summary>
+            <form class="key-form" id="key-form">
+              <label for="api-key">OpenWeatherMap API key</label>
+              <div class="key-input-row">
+                <input
+                  id="api-key"
+                  name="api-key"
+                  type="password"
+                  placeholder="Paste your API key"
+                  autocomplete="off"
+                  required
+                />
+                <button type="submit" class="save-key-button">Save key</button>
+              </div>
+              <p>
+                Your key is saved in this browser only.
+                <a href="https://openweathermap.org/api" target="_blank" rel="noreferrer">Get a free key <span aria-hidden="true">↗</span></a>
+              </p>
+            </form>
+          </details>
+        </section>
+
+        <footer class="page-footer">
+          <span>Weather data by <a href="https://openweathermap.org/" target="_blank" rel="noreferrer">OpenWeatherMap</a></span>
+          <span class="footer-dot" aria-hidden="true">·</span>
+          <span>Made for wherever you are</span>
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>
